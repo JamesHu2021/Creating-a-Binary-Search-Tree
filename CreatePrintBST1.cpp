@@ -18,6 +18,23 @@ struct node {
   node(int value, node * left, node * right, node * parent = NULL) : value(value), left(left), right(right), parent(parent) {}
 };
 
+bool isBST(node * root)
+{
+    if (root == NULL) return true;
+    
+    if ((root->left == NULL) && (root->right == NULL)) return true;
+    
+    if (root->left == NULL) return (root->value < root->right->value) && isBST(root->right);
+    
+    if (root->right == NULL) return (root->value > root->left->value) && isBST(root->left);
+    
+    //
+    return (root->value < root->right->value) && isBST(root->right) && (root->value > root->left->value) && isBST(root->left);
+    
+}
+
+
+
 struct node * findMin(struct node *n) {
   for (; n && n->left; n = n->left);
   return n;
@@ -63,6 +80,9 @@ node * construct_tree() {
 
 int main() {
   node * root = construct_tree();
+
+  //You can edit function construct_tree() then test the tree is BST or not.
+  printf( "Is BST: %d \n", isBST(root) ); 
   
   for( node * n = findMin( root ); n; n = findNext( n ) ) 
   { 
